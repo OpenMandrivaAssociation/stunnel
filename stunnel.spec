@@ -1,34 +1,33 @@
-%define pemdir	%{_sysconfdir}/ssl/stunnel
+%define pemdir               %{_sysconfdir}/ssl/stunnel
 
-%define	major	0
-%define libname	%mklibname %{name} %{major}
-%define libname_devel %mklibname %{name} -d
+%define major                0
+%define libname              %mklibname %{name} %{major}
+%define libname_devel        %mklibname %{name} -d
 %define libname_static_devel %mklibname %{name} -d -s
 
-Name:		stunnel
-Version:	4.21
-Release:	%mkrel 1
-Summary:	Program that wraps normal socket connections with SSL/TLS
-License:	GPL
-Group:		System/Servers
-URL:		http://www.stunnel.org/
-Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
-Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
-Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
-Patch0:		stunnel-mdvconf.diff
-Patch1:		stunnel-4.06-authpriv.patch
-Patch2:		stunnel-soname.diff
-Patch4:		stunnel-4.15-lib64.patch
-BuildRequires:	libtool
-BuildRequires:	automake1.7
-BuildRequires:	autoconf2.5
-BuildRequires:	openssl >= 0.9.5
-BuildRequires:	openssl-devel >= 0.9.5
-BuildRequires:	tcp_wrappers-devel
-Requires:	openssl >= 0.9.5a
-Requires:	tcp_wrappers
-Requires:	%{libname} = %{version}-%{release}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
+Name:           stunnel
+Version:        4.21
+Release:        %mkrel 2
+Summary:        Program that wraps normal socket connections with SSL/TLS
+License:        GPL
+Group:          System/Servers
+URL:            http://www.stunnel.org/
+Source0:        http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
+Source1:        http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
+Source1:        http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
+Patch0:         stunnel-mdvconf.diff
+Patch1:         stunnel-4.06-authpriv.patch
+Patch2:         stunnel-soname.diff
+Patch4:         stunnel-4.15-lib64.patch
+BuildRequires:  libtool
+BuildRequires:  automake1.7
+BuildRequires:  autoconf2.5
+BuildRequires:  openssl >= 0.9.5
+BuildRequires:  openssl-devel >= 0.9.5
+BuildRequires:  tcp_wrappers-devel
+Requires:       openssl >= 0.9.5a
+Requires:       tcp_wrappers
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 The stunnel program is designed to work as SSL encryption wrapper between 
@@ -41,11 +40,11 @@ like POP-2, POP-3, and IMAP servers, to standalone daemons like NNTP, SMTP
 and HTTP, and in tunneling PPP over network sockets without changes to the 
 source code.
 
-%package -n	%{libname}
-Summary:	Shared library for stunnel
+%package -n %{libname}
+Summary:        Shared library for stunnel
 Group:          System/Libraries
 
-%description -n	%{libname}
+%description -n %{libname}
 The stunnel program is designed to work as SSL encryption wrapper between 
 remote clients and local (inetd-startable) or remote servers. The concept is 
 that having non-SSL aware daemons running on your system you can easily set 
@@ -58,15 +57,15 @@ source code.
 
 This package contains the shared library for stunnel.
 
-%package -n	%{libname_devel}
-Summary:	Development files for stunnel
+%package -n %{libname_devel}
+Summary:        Development files for stunnel
 Group:          Development/C
-Requires:	%{libname} = %{version}-%{release}
-Provides:	lib%{name}-devel = %{version}-%{release}
+Requires:       %{libname} = %{version}-%{release}
+Provides:       lib%{name}-devel = %{version}-%{release}
 Provides:       %{name}-devel = %{version}-%{release}
 Obsoletes:      %{libname}-devel < %{version}-%{release}
 
-%description -n	%{libname_devel}
+%description -n %{libname_devel}
 The stunnel program is designed to work as SSL encryption wrapper between 
 remote clients and local (inetd-startable) or remote servers. The concept is 
 that having non-SSL aware daemons running on your system you can easily set 
@@ -79,14 +78,14 @@ source code.
 
 This package contains development files for stunnel.
 
-%package -n	%{libname_static_devel}
-Summary:	Static library for stunnel
+%package -n %{libname_static_devel}
+Summary:        Static library for stunnel
 Group:          Development/C
-Requires:	%{libname_devel} = %{version}-%{release}
-Provides:	lib%{name}-static-devel = %{version}-%{release}
+Requires:       %{libname_devel} = %{version}-%{release}
+Provides:       lib%{name}-static-devel = %{version}-%{release}
 Provides:       %{name}-static-devel = %{version}-%{release}
 
-%description -n	%{libname_static_devel}
+%description -n %{libname_static_devel}
 The stunnel program is designed to work as SSL encryption wrapper between 
 remote clients and local (inetd-startable) or remote servers. The concept is 
 that having non-SSL aware daemons running on your system you can easily set 
@@ -126,14 +125,14 @@ perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
     --localstatedir=%{_var} \
     --with-tcp-wrappers \
     --with-ipv6
-echo -e "\n\n\n\n\n\n\n\n" | %{__make} pkglibdir=%{_libdir}
+%{make} pkglibdir=%{_libdir}
 
 %install
 rm -rf %{buildroot}
 
 mkdir -p %{buildroot}%{pemdir} \
-	%{buildroot}%{_var}/openssl/certs/trusted \
-	%{buildroot}%{_var}/run/stunnel
+        %{buildroot}%{_var}/openssl/certs/trusted \
+        %{buildroot}%{_var}/run/stunnel
 
 # (oe) hack... don't generate the pem file
 touch %{buildroot}%{pemdir}/stunnel.pem
@@ -143,9 +142,9 @@ touch %{buildroot}%{pemdir}/stunnel.pem
 # Move the translated man pages to the right subdirectories, and strip off the
 # language suffixes.
 for lang in fr pl ; do
-	mkdir -p %{buildroot}%{_mandir}/${lang}/man8
-	mv %{buildroot}%{_mandir}/man8/*.${lang}.8* %{buildroot}%{_mandir}/${lang}/man8/
-	rename ".${lang}" "" %{buildroot}%{_mandir}/${lang}/man8/*
+        mkdir -p %{buildroot}%{_mandir}/${lang}/man8
+        mv %{buildroot}%{_mandir}/man8/*.${lang}.8* %{buildroot}%{_mandir}/${lang}/man8/
+        rename ".${lang}" "" %{buildroot}%{_mandir}/${lang}/man8/*
 done
 
 # cleanup
