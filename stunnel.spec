@@ -2,16 +2,19 @@
 
 %define	major	0
 %define libname	%mklibname %{name} %{major}
+%define libname_devel %mklibname %{name} -d
+%define libname_static_devel %mklibname %{name} -d -s
 
-Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	4.20
+Version:	4.21
 Release:	%mkrel 1
+Summary:	Program that wraps normal socket connections with SSL/TLS
 License:	GPL
 Group:		System/Servers
 URL:		http://www.stunnel.org/
 Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
 Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
+Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
 Patch0:		stunnel-mdvconf.diff
 Patch1:		stunnel-4.06-authpriv.patch
 Patch2:		stunnel-soname.diff
@@ -55,13 +58,15 @@ source code.
 
 This package contains the shared library for stunnel.
 
-%package -n	%{libname}-devel
+%package -n	%{libname_devel}
 Summary:	Development files for stunnel
 Group:          Development/C
-Requires:	%{libname} = %{version}
-Provides:	lib%{name}-devel
+Requires:	%{libname} = %{version}-%{release}
+Provides:	lib%{name}-devel = %{version}-%{release}
+Provides:       %{name}-devel = %{version}-%{release}
+Obsoletes:      %{libname}-devel < %{version}-%{release}
 
-%description -n	%{libname}-devel
+%description -n	%{libname_devel}
 The stunnel program is designed to work as SSL encryption wrapper between 
 remote clients and local (inetd-startable) or remote servers. The concept is 
 that having non-SSL aware daemons running on your system you can easily set 
@@ -74,8 +79,27 @@ source code.
 
 This package contains development files for stunnel.
 
-%prep
+%package -n	%{libname_static_devel}
+Summary:	Static library for stunnel
+Group:          Development/C
+Requires:	%{libname_devel} = %{version}-%{release}
+Provides:	lib%{name}-static-devel = %{version}-%{release}
+Provides:       %{name}-static-devel = %{version}-%{release}
 
+%description -n	%{libname_static_devel}
+The stunnel program is designed to work as SSL encryption wrapper between 
+remote clients and local (inetd-startable) or remote servers. The concept is 
+that having non-SSL aware daemons running on your system you can easily set 
+them up to communicate with clients over secure SSL channels.
+
+stunnel can be used to add SSL functionality to commonly used inetd daemons 
+like POP-2, POP-3, and IMAP servers, to standalone daemons like NNTP, SMTP 
+and HTTP, and in tunneling PPP over network sockets without changes to the 
+source code.
+
+This package contains the static library for stunnel.
+
+%prep
 %setup -q
 %patch0 -p1 -b .confdir
 %patch1 -p1 -b .authprv
@@ -90,22 +114,22 @@ mv doc/stunnel.pl.8_ doc/stunnel.pl.8
 # XXX don't install /var/lib/stunnel
 perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
 
-export WANT_AUTOCONF_2_5=1
-libtoolize --copy --force && aclocal-1.7 && automake-1.7 -a && autoconf
+%{__perl} -pi -e 's/\r$//g' INSTALL.WCE
+
+%{_bindir}/autoreconf -i -v -f
 
 %build
-
-%configure2_5x \
+%{configure2_5x} \
     --with-ssl=%{_prefix} \
     --enable-static \
     --enable-shared \
     --localstatedir=%{_var} \
     --with-tcp-wrappers \
     --with-ipv6
-echo -e "\n\n\n\n\n\n\n\n" | make
+echo -e "\n\n\n\n\n\n\n\n" | %{__make} pkglibdir=%{_libdir}
 
 %install
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 mkdir -p %{buildroot}%{pemdir} \
 	%{buildroot}%{_var}/openssl/certs/trusted \
@@ -114,7 +138,7 @@ mkdir -p %{buildroot}%{pemdir} \
 # (oe) hack... don't generate the pem file
 touch %{buildroot}%{pemdir}/stunnel.pem
 
-%makeinstall docdir=`pwd`/doc-to-install
+%{makeinstall} docdir=`pwd`/doc-to-install pkglibdir=%{buildroot}%{_libdir}
 
 # Move the translated man pages to the right subdirectories, and strip off the
 # language suffixes.
@@ -140,13 +164,13 @@ echo ""
 %postun -n %{libname} -p /sbin/ldconfig
 
 %clean
-[ "%{buildroot}" != "/" ] && rm -rf %{buildroot}
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,0755)
 %doc doc-to-install/* tools/stunnel.cnf
-%{_sbindir}/stunnel
-%{_sbindir}/stunnel3
+%{_bindir}/stunnel
+%{_bindir}/stunnel3
 %dir %{pemdir}
 %dir %{_var}/run/stunnel
 %dir %{_var}/openssl/certs/trusted
@@ -158,10 +182,10 @@ echo ""
 %defattr(-,root,root)
 %{_libdir}/*.so.*
 
-%files -n %{libname}-devel
+%files -n %{libname_devel}
 %defattr(-,root,root)
 %{_libdir}/*.so
-%{_libdir}/*.a
 %{_libdir}/*.la
 
-
+%files -n %{libname_static_devel}
+%{_libdir}/*.a
