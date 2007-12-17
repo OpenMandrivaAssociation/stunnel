@@ -27,7 +27,6 @@ BuildRequires:  openssl-devel >= 0.9.5
 BuildRequires:  tcp_wrappers-devel
 Requires:       openssl >= 0.9.5a
 Requires:       tcp_wrappers
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 The stunnel program is designed to work as SSL encryption wrapper between 
