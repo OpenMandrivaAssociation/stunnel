@@ -6,8 +6,8 @@
 %define libname_static_devel %mklibname %{name} -d -s
 
 Name:           stunnel
-Version:        4.21
-Release:        %mkrel 2
+Version:        4.24
+Release:        %mkrel 1
 Summary:        Program that wraps normal socket connections with SSL/TLS
 License:        GPL
 Group:          System/Servers
@@ -18,7 +18,7 @@ Source1:        http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.t
 Patch0:         stunnel-mdvconf.diff
 Patch1:         stunnel-4.06-authpriv.patch
 Patch2:         stunnel-soname.diff
-Patch4:         stunnel-4.15-lib64.patch
+Patch4:         stunnel-4.24-lib64.patch
 BuildRequires:  libtool
 BuildRequires:  automake1.7
 BuildRequires:  autoconf2.5
