@@ -7,7 +7,7 @@
 
 Name:           stunnel
 Version:        4.24
-Release:        %mkrel 1
+Release:        %mkrel 2
 Summary:        Program that wraps normal socket connections with SSL/TLS
 License:        GPL
 Group:          System/Servers
@@ -139,6 +139,9 @@ touch %{buildroot}%{pemdir}/stunnel.pem
 
 %{makeinstall} docdir=`pwd`/doc-to-install pkglibdir=%{buildroot}%{_libdir}
 
+%{__mkdir_p} %{buildroot}%{_datadir}/%{name}
+%{__cp} -p tools/stunnel.cnf %{buildroot}%{_datadir}/%{name}/stunnel.cnf
+
 # Move the translated man pages to the right subdirectories, and strip off the
 # language suffixes.
 for lang in fr pl ; do
@@ -154,7 +157,7 @@ rm -f %{buildroot}%{pemdir}/*
 %post
 echo "To build a new pem, execute the following OpenSSL command:"
 echo "    openssl req -new -x509 -days 365 -nodes \ "
-echo "    -config %{_docdir}/%{name}-%{version}/stunnel.cnf \ "
+echo "    -config %{_datadir}/%{name}/stunnel.cnf \ "
 echo "    -out %{pemdir}/stunnel.pem -keyout %{pemdir}/stunnel.pem"
 echo ""
 
@@ -167,9 +170,10 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,0755)
-%doc doc-to-install/* tools/stunnel.cnf
+%doc doc-to-install/*
 %{_bindir}/stunnel
 %{_bindir}/stunnel3
+%{_datadir}/%{name}/
 %dir %{pemdir}
 %dir %{_var}/run/stunnel
 %dir %{_var}/openssl/certs/trusted
