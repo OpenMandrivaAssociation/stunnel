@@ -7,7 +7,7 @@
 
 Name:           stunnel
 Version:        4.24
-Release:        %mkrel 2
+Release:        %mkrel 3
 Summary:        Program that wraps normal socket connections with SSL/TLS
 License:        GPL
 Group:          System/Servers
