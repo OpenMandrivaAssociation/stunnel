@@ -6,8 +6,8 @@
 %define libname_static_devel %mklibname %{name} -d -s
 
 Name:           stunnel
-Version:        4.24
-Release:        %mkrel 3
+Version:        4.25
+Release:        %mkrel 1
 Summary:        Program that wraps normal socket connections with SSL/TLS
 License:        GPL
 Group:          System/Servers
@@ -27,7 +27,7 @@ BuildRequires:  openssl-devel >= 0.9.5
 BuildRequires:  tcp_wrappers-devel
 Requires:       openssl >= 0.9.5a
 Requires:       tcp_wrappers
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The stunnel program is designed to work as SSL encryption wrapper between 
