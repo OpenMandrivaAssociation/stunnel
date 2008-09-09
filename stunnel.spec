@@ -8,7 +8,7 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
 Version:	4.25
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -123,6 +123,7 @@ perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
 
 %build
 %configure2_5x \
+    --with-threads=fork \
     --with-ssl=%{_prefix} \
     --enable-static \
     --enable-shared \
