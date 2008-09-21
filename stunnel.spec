@@ -7,8 +7,8 @@
 
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	4.25
-Release:	%mkrel 4
+Version:	4.26
+Release:	%mkrel 1
 License:	GPL
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -20,7 +20,6 @@ Patch1:		stunnel-4.06-authpriv.patch
 Patch2:		stunnel-soname.diff
 Patch3:		stunnel-path_fix.diff
 Patch4:		stunnel-4.24-lib64.patch
-Patch5:		stunnel-4.25-EAI_SERVICE.patch
 BuildRequires:	libtool
 BuildRequires:	automake1.7
 BuildRequires:	autoconf2.5
@@ -109,7 +108,6 @@ This package contains the static library for stunnel.
 %patch2 -p1 -b .soname
 %patch3 -p0 -b .path_fix
 %patch4 -p1 -b .lib64
-%patch5 -p1 -b .EAI_SERVICE
 
 iconv -f iso-8859-1 -t utf-8 < doc/stunnel.fr.8 > doc/stunnel.fr.8_
 mv doc/stunnel.fr.8_ doc/stunnel.fr.8
