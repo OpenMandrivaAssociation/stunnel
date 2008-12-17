@@ -8,13 +8,13 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
 Version:	4.26
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		System/Servers
 URL:		http://www.stunnel.org/
 Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
 Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
-Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
+Source2:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
 Patch0:		stunnel-mdvconf.diff
 Patch1:		stunnel-4.06-authpriv.patch
 Patch2:		stunnel-soname.diff
