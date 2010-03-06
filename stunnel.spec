@@ -7,17 +7,14 @@
 
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	4.29
-Release:	%mkrel 2
-License:	GPL
+Version:	4.31
+Release:	%mkrel 1
+License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
 Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
 Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
 Source2:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
-Patch0:		stunnel-mdvconf.diff
-Patch1:		stunnel-4.06-authpriv.patch
-Patch2:		stunnel-soname.diff
 Patch3:		stunnel-path_fix.diff
 Patch4:		stunnel-4.24-lib64.patch
 BuildRequires:	libtool
@@ -101,11 +98,7 @@ source code.
 This package contains the static library for stunnel.
 
 %prep
-
 %setup -q
-%patch0 -p1 -b .confdir
-%patch1 -p1 -b .authprv
-%patch2 -p1 -b .soname
 %patch3 -p0 -b .path_fix
 %patch4 -p1 -b .lib64
 
@@ -189,10 +182,12 @@ rm -rf %{buildroot}
 %{_mandir}/man8/stunnel.8.*
 %lang(fr) %{_mandir}/fr/man8/stunnel.8*
 %lang(pl) %{_mandir}/pl/man8/stunnel.8*
+/etc/stunnel/stunnel.conf-sample
+/etc/stunnel/stunnel.pem
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/*.so.%{major}*
+%{_libdir}/*
 
 %files -n %{libname_devel}
 %defattr(-,root,root)
