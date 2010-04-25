@@ -7,8 +7,8 @@
 
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	4.31
-Release:	%mkrel 2
+Version:	4.33
+Release:	%mkrel 1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -182,8 +182,8 @@ rm -rf %{buildroot}
 %{_mandir}/man8/stunnel.8.*
 %lang(fr) %{_mandir}/fr/man8/stunnel.8*
 %lang(pl) %{_mandir}/pl/man8/stunnel.8*
-/etc/stunnel/stunnel.conf-sample
-/etc/stunnel/stunnel.pem
+%{_sysconfdir}/%{name}/stunnel.conf-sample
+%{_sysconfdir}/%{name}/stunnel.pem
 
 %files -n %{libname}
 %defattr(-,root,root)
