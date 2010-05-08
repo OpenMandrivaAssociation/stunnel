@@ -8,7 +8,7 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
 Version:	4.33
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -132,14 +132,13 @@ mkdir -p %{buildroot}%{pemdir} \
         %{buildroot}%{_var}/openssl/certs/trusted \
         %{buildroot}%{_var}/run/stunnel
 
-# (oe) hack... don't generate the pem file
+# (oe) hack... don't generate the pem file, and stunnel.conf
 touch %{buildroot}%{pemdir}/stunnel.pem
-
 %makeinstall docdir=`pwd`/doc-to-install pkglibdir=%{buildroot}%{_libdir}
 
 %{__mkdir_p} %{buildroot}%{_datadir}/%{name}
 %{__cp} -p tools/stunnel.cnf %{buildroot}%{_datadir}/%{name}/stunnel.cnf
-
+cp %{buildroot}%{_sysconfdir}/%name/stunnel.conf-sample %{buildroot}%{_sysconfdir}/%name/stunnel.conf
 # Move the translated man pages to the right subdirectories, and strip off the
 # language suffixes.
 for lang in fr pl ; do
@@ -183,6 +182,7 @@ rm -rf %{buildroot}
 %lang(fr) %{_mandir}/fr/man8/stunnel.8*
 %lang(pl) %{_mandir}/pl/man8/stunnel.8*
 %{_sysconfdir}/%{name}/stunnel.conf-sample
+%{_sysconfdir}/%{name}/stunnel.conf
 %{_sysconfdir}/%{name}/stunnel.pem
 
 %files -n %{libname}
