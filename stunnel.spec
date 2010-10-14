@@ -7,16 +7,16 @@
 
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	4.33
-Release:	%mkrel 2
+Version:	4.34
+Release:	%mkrel 1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
 Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
 Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
 Source2:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.sha1
-Patch3:		stunnel-path_fix.diff
-Patch4:		stunnel-4.24-lib64.patch
+Patch0:		stunnel-4.34-path-fix.patch
+Patch1:		stunnel-4.34-lib64.patch
 BuildRequires:	libtool
 BuildRequires:	automake1.7
 BuildRequires:	autoconf2.5
@@ -99,8 +99,8 @@ This package contains the static library for stunnel.
 
 %prep
 %setup -q
-%patch3 -p0 -b .path_fix
-%patch4 -p1 -b .lib64
+%patch0 -p0 
+%patch1 -p1 
 
 iconv -f iso-8859-1 -t utf-8 < doc/stunnel.fr.8 > doc/stunnel.fr.8_
 mv doc/stunnel.fr.8_ doc/stunnel.fr.8
@@ -127,6 +127,7 @@ perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
 
 %install
 rm -rf %{buildroot}
+
 
 mkdir -p %{buildroot}%{pemdir} \
         %{buildroot}%{_var}/openssl/certs/trusted \
