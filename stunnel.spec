@@ -8,7 +8,7 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
 Version:	4.34
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -18,7 +18,7 @@ Source2:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.s
 Patch0:		stunnel-4.34-path-fix.patch
 Patch1:		stunnel-4.34-lib64.patch
 BuildRequires:	libtool
-BuildRequires:	automake1.7
+BuildRequires:	automake
 BuildRequires:	autoconf2.5
 BuildRequires:	openssl >= 0.9.5
 BuildRequires:	openssl-devel >= 0.9.5
