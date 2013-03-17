@@ -37,6 +37,7 @@ mv doc/stunnel.pl.8_ doc/stunnel.pl.8
 # XXX don't install /var/lib/stunnel
 perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
 %build
+autoreconf -fi
 %configure2_5x \
     --with-threads=fork \
     --with-ssl=%{_prefix} \
