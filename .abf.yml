@@ -4,3 +4,4 @@ removed_sources:
 sources:
   stunnel-4.54.tar.gz.asc: 40e315850ec9ac4c17ce1fa12912b2f4b0f205c0
   stunnel-4.56.tar.gz: 0e5e495e05b8d14deadd294166b211f87a667b24
+  stunnel-4.56.tar.gz.asc: cb2f988186d357717e62a6b4e89cf740cfb1de1c
