@@ -8,6 +8,7 @@ URL:		http://www.stunnel.org/
 Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
 Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
 Source2:	stunnel.service
+Source3:        stunnel.tmpfiles
 Patch0:		stunnel-4.56-no-fips.patch
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	tcp_wrappers-devel
@@ -55,14 +56,17 @@ touch %{buildroot}%{_sysconfdir}/%{name}/stunnel.pem
 %makeinstall docdir=`pwd`/doc-to-install pkglibdir=%{buildroot}%{_libdir}
 
 install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/stunnel.service
+install -D -m 644 %{SOURCE3} %{buildroot}%{_prefix}/lib/tmpfiles.d/stunnel.conf
 
 install -d %{buildroot}%{_var}/openssl/certs/trusted
 install -d %{buildroot}%{_var}/run/stunnel
+# install -d -m755 %{buildroot}/usr/var/lib/%{name}
 
 mv %{buildroot}%{_sysconfdir}/%{name}/stunnel.conf-sample \
     %{buildroot}%{_sysconfdir}/%{name}/stunnel.conf
 
 perl -pi \
+    -e 's|chroot = .*|chroot = /run/stunnel|;' \
     -e 's|cert = .*|cert = /etc/pki/tls/certs/stunnel.pem|;' \
     -e 's|;key = .*|key = /etc/pki/tls/private//stunnel.pem|;' \
     %{buildroot}%{_sysconfdir}/%{name}/stunnel.conf
@@ -78,10 +82,10 @@ done
 # cleanup
 rm -f ./doc-to-install/INSTALL.W32
 rm -f %{buildroot}%{_sysconfdir}/%{name}/stunnel.pem
-rm -f %{buildroot}%{_libdir}/libstunnel.la
 
 %post
 %_create_ssl_certificate stunnel
+chmod a+w %{_var}/run/stunnel
 
 %files
 %doc doc-to-install/*
@@ -93,4 +97,5 @@ rm -f %{buildroot}%{_libdir}/libstunnel.la
 %lang(pl) %{_mandir}/pl/man8/stunnel.8*
 %config(noreplace) %{_sysconfdir}/%{name}/stunnel.conf
 %{_unitdir}/stunnel.service
+%{_prefix}/lib/tmpfiles.d/stunnel.conf
 %{_libdir}/libstunnel.so
