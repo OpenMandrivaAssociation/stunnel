@@ -1,9 +1,3 @@
-removed_sources:
-  stunnel-4.53.tar.gz: c167833c23fde388db697bd3edb4444aff0e449e
-  stunnel-4.54.tar.gz: e9e6414c699e81b0bd029f5b6ae018bb5e320bbd
-  stunnel-4.56.tar.gz: 0e5e495e05b8d14deadd294166b211f87a667b24
-  stunnel-4.54.tar.gz.asc: 40e315850ec9ac4c17ce1fa12912b2f4b0f205c0
-  stunnel-4.56.tar.gz.asc: cb2f988186d357717e62a6b4e89cf740cfb1de1c
 sources:
-  stunnel-5.00.tar.gz: a048e24529e3b4cb787838ea6de5c6475746f197
-  stunnel-5.00.tar.gz.asc: dcefb2f06f317e3144f08f5550e215edc6c385ba
+  stunnel-5.04.tar.gz: 0895d6c34e4c296c38f86922f4e9ff4f25f6371b
+  stunnel-5.04.tar.gz.asc: bdfb3092ede53d2f27bd0525f6a5a9f8e981e016

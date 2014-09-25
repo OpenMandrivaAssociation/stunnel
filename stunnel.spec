@@ -1,12 +1,12 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.00
-Release:	4
+Version:	5.04
+Release:	1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
-Source0:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz
-Source1:	http://www.stunnel.org/download/stunnel/src/%{name}-%{version}.tar.gz.asc
+Source0:	http://www.stunnel.org/downloads/src/%{name}-%{version}.tar.gz
+Source1:	http://www.stunnel.org/downloads/src/%{name}-%{version}.tar.gz.asc
 Source2:	stunnel.service
 Source3:        stunnel.tmpfiles
 Patch0:		stunnel-4.56-no-fips.patch
@@ -41,12 +41,14 @@ mv doc/stunnel.pl.8_ doc/stunnel.pl.8
 perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
 %build
 autoreconf -fi
-%configure2_5x \
+%configure \
     --with-threads=fork \
     --with-ssl=%{_prefix} \
     --disable-static \
     --enable-shared
-%make pkglibdir=%{_libdir}
+
+%make LDADD="-pie -Wl,-z,defs,-z,relro,-z,now"
+#% make pkglibdir=%{_libdir}
 
 %install
 # (oe) hack... don't generate the pem file, and stunnel.conf
