@@ -1,15 +1,14 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.04
-Release:	2
+Version:	5.08
+Release:	1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
-Source0:	http://www.stunnel.org/downloads/src/%{name}-%{version}.tar.gz
-Source1:	http://www.stunnel.org/downloads/src/%{name}-%{version}.tar.gz.asc
+Source0:	https://www.stunnel.org/downloads/%{name}-%{version}.tar.gz
+Source1:	http://www.stunnel.org/downloads/%{name}-%{version}.tar.gz.asc
 Source2:	stunnel.service
 Source3:        stunnel.tmpfiles
-Patch0:		stunnel-4.56-no-fips.patch
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	tcp_wrappers-devel
 Requires:	tcp_wrappers
@@ -30,7 +29,7 @@ source code.
 
 %prep
 %setup -q
-%patch0 -p1
+%apply_patches
 
 iconv -f iso-8859-1 -t utf-8 < doc/stunnel.fr.8 > doc/stunnel.fr.8_
 mv doc/stunnel.fr.8_ doc/stunnel.fr.8
