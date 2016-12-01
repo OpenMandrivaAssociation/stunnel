@@ -1,7 +1,7 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.08
-Release:	2
+Version:	5.38
+Release:	1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -12,6 +12,7 @@ Source3:        stunnel.tmpfiles
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	tcp_wrappers-devel
 Requires:	tcp_wrappers
+Requires(pre):	openssl
 Obsoletes:	%{mklibname %{name} 0} < 4.53
 Obsoletes:	%{mklibname %{name} -d} < 4.53
 Obsoletes:	%{mklibname %{name} -d -s} < 4.53
@@ -30,11 +31,6 @@ source code.
 %prep
 %setup -q
 %apply_patches
-
-iconv -f iso-8859-1 -t utf-8 < doc/stunnel.fr.8 > doc/stunnel.fr.8_
-mv doc/stunnel.fr.8_ doc/stunnel.fr.8
-iconv -f iso-8859-2 -t utf-8 < doc/stunnel.pl.8 > doc/stunnel.pl.8_
-mv doc/stunnel.pl.8_ doc/stunnel.pl.8
 
 # XXX don't install /var/lib/stunnel
 perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
@@ -72,14 +68,6 @@ perl -pi \
     -e 's|;key = .*|key = /etc/pki/tls/private//stunnel.pem|;' \
     %{buildroot}%{_sysconfdir}/%{name}/stunnel.conf
 
-# Move the translated man pages to the right subdirectories, and strip off the
-# language suffixes.
-for lang in fr pl ; do
-        mkdir -p %{buildroot}%{_mandir}/${lang}/man8
-        mv %{buildroot}%{_mandir}/man8/*.${lang}.8* %{buildroot}%{_mandir}/${lang}/man8/
-        rename ".${lang}" "" %{buildroot}%{_mandir}/${lang}/man8/*
-done
-
 # cleanup
 rm -f ./doc-to-install/INSTALL.W32
 rm -f %{buildroot}%{_sysconfdir}/%{name}/stunnel.pem
@@ -93,9 +81,7 @@ chmod a+w %{_var}/run/stunnel
 %{_bindir}/stunnel
 %{_bindir}/stunnel3
 %dir %{_var}/run/stunnel
-%{_mandir}/man8/stunnel.8.*
-%lang(fr) %{_mandir}/fr/man8/stunnel.8*
-%lang(pl) %{_mandir}/pl/man8/stunnel.8*
+%{_mandir}/man8/stunnel*.8.*
 %config(noreplace) %{_sysconfdir}/%{name}/stunnel.conf
 %{_unitdir}/stunnel.service
 %{_prefix}/lib/tmpfiles.d/stunnel.conf
