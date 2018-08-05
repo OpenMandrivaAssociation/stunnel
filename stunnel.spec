@@ -1,7 +1,7 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.38
-Release:	2
+Version:	5.48
+Release:	1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -34,7 +34,9 @@ source code.
 
 # XXX don't install /var/lib/stunnel
 perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
+sed -i '/^\s*AC_MSG_NOTICE/d' configure.ac
 %build
+
 autoreconf -fi
 %configure \
     --with-threads=fork \
