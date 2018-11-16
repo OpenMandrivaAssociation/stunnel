@@ -36,6 +36,10 @@ perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
 sed -i '/^\s*AC_MSG_NOTICE/d' configure.ac
 %build
 
+libtoolize --force
+aclocal
+autoheader
+automake --force-missing --add-missing
 autoreconf -fi
 %configure \
     --with-threads=fork \
