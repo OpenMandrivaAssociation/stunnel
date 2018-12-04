@@ -1,7 +1,7 @@
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.49
-Release:	2
+Version:	5.50
+Release:	1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -28,7 +28,7 @@ and HTTP, and in tunneling PPP over network sockets without changes to the
 source code.
 
 %prep
-%setup -q
+%setup -qn %{name}-%{name}-%{version}
 %apply_patches
 
 # XXX don't install /var/lib/stunnel
