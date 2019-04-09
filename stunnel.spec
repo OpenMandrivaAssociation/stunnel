@@ -1,3 +1,5 @@
+%define _disable_rebuild_configure %nil
+
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
 Version:	5.51
@@ -31,16 +33,8 @@ source code.
 %setup -qn %{name}-%{name}-%{version}
 %apply_patches
 
-# XXX don't install /var/lib/stunnel
-perl -ni -e '/INSTALL.*-m 1770 -g nogroup.*stunnel$/ or print' tools/Makefile.am
-sed -i '/^\s*AC_MSG_NOTICE/d' configure.ac
 %build
 
-libtoolize --force
-aclocal
-autoheader
-automake --force-missing --add-missing
-autoreconf -fi
 %configure \
     --with-threads=fork \
     --with-ssl=%{_prefix} \
