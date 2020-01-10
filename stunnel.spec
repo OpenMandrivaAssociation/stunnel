@@ -31,7 +31,7 @@ source code.
 
 %prep
 %setup -qn %{name}-%{name}-%{version}
-%apply_patches
+%autopatch -p1
 
 %build
 
