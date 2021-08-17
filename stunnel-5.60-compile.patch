@@ -1,0 +1,12 @@
+diff -up stunnel-stunnel-5.60/src/options.c.omv~ stunnel-stunnel-5.60/src/options.c
+--- stunnel-stunnel-5.60/src/options.c.omv~	2021-08-17 23:21:14.510183728 +0200
++++ stunnel-stunnel-5.60/src/options.c	2021-08-17 23:21:27.233209778 +0200
+@@ -225,7 +225,7 @@ static const SSL_OPTION ssl_opts[] = {
+ #ifdef SSL_OP_ALLOW_CLIENT_RENEGOTIATION
+     {"ALLOW_CLIENT_RENEGOTIATION", SSL_OP_ALLOW_CLIENT_RENEGOTIATION},
+ #endif
+-#ifdef SSL_OP_BIT
++#if 0 //def SSL_OP_BIT
+     {"BIT", SSL_OP_BIT},
+ #endif
+ #ifdef SSL_OP_CLEANSE_PLAINTEXT
