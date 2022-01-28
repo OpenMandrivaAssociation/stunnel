@@ -86,3 +86,4 @@ chmod a+w %{_var}/run/stunnel
 %{_unitdir}/stunnel.service
 %{_prefix}/lib/tmpfiles.d/stunnel.conf
 %{_libdir}/libstunnel.so
+%{_datadir}/bash-completion/completions/stunnel.bash
