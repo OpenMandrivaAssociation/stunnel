@@ -2,7 +2,7 @@
 
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.62
+Version:	5.64
 Release:	1
 License:	GPLv2
 Group:		System/Servers
@@ -37,7 +37,7 @@ source code.
 %build
 
 %configure \
-    --with-threads=fork \
+    --with-threads=pthread \
     --with-ssl=%{_prefix} \
     --disable-static \
     --enable-shared
@@ -50,7 +50,7 @@ source code.
 install -d %{buildroot}%{_sysconfdir}/%{name}
 touch %{buildroot}%{_sysconfdir}/%{name}/stunnel.pem
 
-%makeinstall docdir=`pwd`/doc-to-install pkglibdir=%{buildroot}%{_libdir}
+%make_install docdir=/doc-to-install pkglibdir=%{_libdir}
 
 install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/stunnel.service
 install -D -m 644 %{SOURCE3} %{buildroot}%{_prefix}/lib/tmpfiles.d/stunnel.conf
@@ -69,6 +69,7 @@ perl -pi \
     %{buildroot}%{_sysconfdir}/%{name}/stunnel.conf
 
 # cleanup
+mv %{buildroot}/doc-to-install .
 rm -f ./doc-to-install/INSTALL.W32
 rm -f %{buildroot}%{_sysconfdir}/%{name}/stunnel.pem
 
@@ -85,5 +86,5 @@ chmod a+w %{_var}/run/stunnel
 %config(noreplace) %{_sysconfdir}/%{name}/stunnel.conf
 %{_unitdir}/stunnel.service
 %{_prefix}/lib/tmpfiles.d/stunnel.conf
-%{_libdir}/libstunnel.so
 %{_datadir}/bash-completion/completions/stunnel.bash
+%{_libdir}/*.so
