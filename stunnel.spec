@@ -2,8 +2,8 @@
 
 Summary:	Program that wraps normal socket connections with SSL/TLS
 Name:		stunnel
-Version:	5.64
-Release:	2
+Version:	5.67
+Release:	1
 License:	GPLv2
 Group:		System/Servers
 URL:		http://www.stunnel.org/
@@ -86,5 +86,4 @@ chmod a+w %{_var}/run/stunnel
 %config(noreplace) %{_sysconfdir}/%{name}/stunnel.conf
 %{_unitdir}/stunnel.service
 %{_prefix}/lib/tmpfiles.d/stunnel.conf
-%{_datadir}/bash-completion/completions/stunnel.bash
 %{_libdir}/*.so
