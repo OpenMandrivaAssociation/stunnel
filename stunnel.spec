@@ -6,7 +6,7 @@ Version:	5.70
 Release:	1
 License:	GPLv2
 Group:		System/Servers
-URL:		http://www.stunnel.org/
+URL:		https://www.stunnel.org/
 Source0:	https://github.com/mtrojnar/stunnel/archive/%{name}-%{version}.tar.gz
 Source2:	stunnel.service
 Source3:        stunnel.tmpfiles
